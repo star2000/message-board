@@ -8,8 +8,9 @@ class 留言 extends 控制器
 {
     public $留言模型;
 
-    public function 初始化()
+    public function __construct()
     {
+        parent::__construct();
         $this->留言模型 = new 留言模型;
     }
 
@@ -17,6 +18,16 @@ class 留言 extends 控制器
     {
         $this->视图->渲染([
             '留言列表' => $this->留言模型->取全部(),
+        ]);
+    }
+
+    public function 发表()
+    {
+        $this->留言模型->写([
+            $_POST['标题'],
+            $_POST['内容'],
+            $_POST['邮件'],
+            $_SERVER['REMOTE_ADDR'],
         ]);
     }
 }

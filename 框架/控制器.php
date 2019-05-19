@@ -14,9 +14,5 @@ class 控制器
     public function __construct()
     {
         $this->视图 = new 视图;
-        $this->初始化();
-    }
-    public function 初始化()
-    {
     }
 }
