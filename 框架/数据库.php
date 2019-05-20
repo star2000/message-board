@@ -68,7 +68,7 @@ final class 数据库
     }
 
     /**
-     * 取数据
+     * 取一行数据
      * @var string $语句
      * @return array
      */
@@ -82,7 +82,7 @@ final class 数据库
      * @var string $语句
      * @return array
      */
-    public function 取全部(string $语句): array
+    public function 取尽(string $语句): array
     {
         return $this->执行($语句)->fetchAll(PDO::FETCH_ASSOC);
     }

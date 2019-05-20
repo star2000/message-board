@@ -28,7 +28,7 @@
         </tr>
         <?php }?>
     </table>
-    <a href="?x=编辑" class="btn btn-link btn-outline-success">添加</a>
+    <a href="?行为=编辑" class="btn btn-link btn-outline-success">添加</a>
 </body>
 
 </html>

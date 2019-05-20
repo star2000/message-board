@@ -16,7 +16,13 @@ class 模型
      * 保存数据库实例
      * @var 数据库
      */
-    protected $_库;
+    private $_库;
+
+    /**
+     * 保存拼装的语句
+     * @var string
+     */
+    private $_语句;
 
     public function __construct()
     {
@@ -25,20 +31,43 @@ class 模型
     }
 
     /**
-     * 取全部数据
-     * @return array
+     * 拼装select语句
+     * @param array $字段列表
+     * @return self
      */
-    public function 取全部(): array
+    public function 选(array $字段列表 = []): self
     {
-        return $this->_库->取全部("select * from {$this->_表}");
+        $字段 = empty($字段列表) ? '*' : join(', ', $字段列表);
+        $this->_语句 = "select {$字段} from `{$this->_表}`";
+        return $this;
     }
 
     /**
-     * 取指定行数据
+     * 拼装where子句
+     * @param string $条件
+     * @return self
+     */
+    public function 当(string $条件): self
+    {
+        $this->_语句 .= " where {$条件}";
+        return $this;
+    }
+
+    /**
+     * 取一行数据
      * @return array
      */
-    public function 取(int $编号): array
+    public function 取(): array
     {
-        return $this->_库->取("select * from {$this->_表} where 编号=?", [$编号]);
+        return $this->_库->取($this->_语句);
+    }
+
+    /**
+     * 取全部数据
+     * @return array
+     */
+    public function 取尽(): array
+    {
+        return $this->_库->取尽($this->_语句);
     }
 }
