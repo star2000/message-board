@@ -21,13 +21,13 @@ class 留言 extends 控制器
         ]);
     }
 
+    public function 编辑()
+    {
+        $this->视图->渲染();
+    }
+
     public function 发表()
     {
-        $this->留言模型->写([
-            $_POST['标题'],
-            $_POST['内容'],
-            $_POST['邮件'],
-            $_SERVER['REMOTE_ADDR'],
-        ]);
+        $this->留言模型->发表();
     }
 }
