@@ -38,7 +38,7 @@ class 模型
     public function 选(array $字段列表 = []): self
     {
         $字段 = empty($字段列表) ? '*' : join(', ', $字段列表);
-        $this->_语句 = "select {$字段} from `{$this->_表}`";
+        $this->_语句 = "select $字段 from `{$this->_表}`";
         return $this;
     }
 
@@ -49,7 +49,7 @@ class 模型
      */
     public function 当(string $条件): self
     {
-        $this->_语句 .= " where {$条件}";
+        $this->_语句 .= " where $条件";
         return $this;
     }
 
@@ -69,5 +69,21 @@ class 模型
     public function 取尽(): array
     {
         return $this->_库->取尽($this->_语句);
+    }
+
+    public function 插(array $字段列表 = [])
+    {
+        $this->_语句 = "insert into `{$this->_表}`";
+        if (!empty($字段列表)) {
+            $字段 = join(', ', $字段列表);
+            $this->_语句 .= "($字段)";
+        }
+        return $this;
+    }
+
+    public function 值(array $数据)
+    {
+        $this->_语句 .= ' values (' . join(',', array_fill(0, count($数据), '?')) . ')';
+        return (bool) $this->_库->执行($this->_语句, $数据);
     }
 }

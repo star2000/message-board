@@ -17,7 +17,7 @@ class 留言 extends 控制器
     public function 列表()
     {
         $this->视图->渲染([
-            '留言列表' => $this->留言模型->取全部(),
+            '留言列表' => $this->留言模型->列表(),
         ]);
     }
 
@@ -28,6 +28,8 @@ class 留言 extends 控制器
 
     public function 发表()
     {
-        $this->留言模型->发表();
+        if ($this->留言模型->发表()) {
+            header('location: /');
+        }
     }
 }
