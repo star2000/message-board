@@ -21,15 +21,14 @@ class 留言 extends 控制器
         ]);
     }
 
-    public function 编辑()
-    {
-        $this->视图->渲染();
-    }
-
     public function 发表()
     {
-        if ($this->留言模型->发表($_POST['标题'], $_POST['内容'], $_POST['邮箱'])) {
-            header('location:/');
+        if (isset($_POST['标题']) and isset($_POST['内容']) and isset($_POST['邮箱'])) {
+            if ($this->留言模型->发表($_POST['标题'], $_POST['内容'], $_POST['邮箱'])) {
+                $this->视图->跳转();
+            }
+        } else {
+            $this->视图->渲染();
         }
     }
 }

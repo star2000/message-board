@@ -23,4 +23,9 @@ class 视图
         extract($数据, EXTR_OVERWRITE);
         require __DIR__ . "/../应用/$应用/视图/$视图.php";
     }
+
+    public function 跳转(string $目标 = '/')
+    {
+        header("location:$目标");
+    }
 }
