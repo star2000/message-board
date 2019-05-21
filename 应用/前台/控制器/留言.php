@@ -28,8 +28,8 @@ class 留言 extends 控制器
 
     public function 发表()
     {
-        if ($this->留言模型->发表()) {
-            header('location: /');
+        if ($this->留言模型->发表($_POST['标题'], $_POST['内容'], $_POST['邮箱'])) {
+            header('location:/');
         }
     }
 }
