@@ -71,7 +71,7 @@ class 模型
         return $this->_库->取尽($this->_语句);
     }
 
-    public function 插(array $字段列表 = [])
+    public function 插(array $字段列表 = []): self
     {
         $this->_语句 = "insert into `{$this->_表}`";
         if (!empty($字段列表)) {
@@ -81,9 +81,9 @@ class 模型
         return $this;
     }
 
-    public function 值(array $数据)
+    public function 值(array $数据): bool
     {
         $this->_语句 .= ' values (' . join(',', array_fill(0, count($数据), '?')) . ')';
-        return (bool) $this->_库->执行($this->_语句, $数据);
+        return $this->_库->执行($this->_语句, $数据);
     }
 }
