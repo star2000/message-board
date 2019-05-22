@@ -37,7 +37,7 @@ class 模型
      */
     public function 选(array $字段列表 = []): self
     {
-        $字段 = empty($字段列表) ? '*' : join(', ', $字段列表);
+        $字段 = $字段列表 ? join(', ', $字段列表) : '*';
         $this->_语句 = "select $字段 from `{$this->_表}`";
         return $this;
     }
@@ -74,7 +74,7 @@ class 模型
     public function 插(array $字段列表 = []): self
     {
         $this->_语句 = "insert into `{$this->_表}`";
-        if (!empty($字段列表)) {
+        if ($字段列表) {
             $字段 = join(', ', $字段列表);
             $this->_语句 .= "($字段)";
         }
