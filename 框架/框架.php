@@ -27,9 +27,9 @@ class 框架
     private function 请求分发()
     {
         // 路由
-        $应用 = isset($_REQUEST['应用']) ? $_REQUEST['应用'] : $GLOBALS['配置']['应用']['默认应用'];
-        $控制器 = isset($_REQUEST['控制器']) ? $_REQUEST['控制器'] : $GLOBALS['配置'][$应用]['默认控制器'];
-        $行为 = isset($_REQUEST['行为']) ? $_REQUEST['行为'] : $GLOBALS['配置'][$应用]['默认行为'];
+        $应用 = $_REQUEST['应用'] ?? $GLOBALS['配置']['应用']['默认应用'];
+        $控制器 = $_REQUEST['控制器'] ?? $GLOBALS['配置'][$应用]['默认控制器'];
+        $行为 = $_REQUEST['行为'] ?? $GLOBALS['配置'][$应用]['默认行为'];
 
         $控制器 = "\\应用\\$应用\\控制器\\$控制器";
         $GLOBALS['应用'] = $应用;
@@ -38,5 +38,4 @@ class 框架
         // 执行
         (new $控制器)->$行为();
     }
-
 }
