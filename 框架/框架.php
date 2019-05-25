@@ -2,9 +2,9 @@
 namespace 框架;
 
 /**
- * 框架类
+ * 基础框架
  */
-class 框架
+final class 框架
 {
     public function 运行()
     {
