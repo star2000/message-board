@@ -2,7 +2,7 @@
 namespace 框架;
 
 /**
- * 模型基础类
+ * 基础模型
  */
 class 模型
 {
@@ -10,24 +10,24 @@ class 模型
      * 保存对应的表名
      * @var string
      */
-    private $_表;
+    private $表;
 
     /**
      * 保存数据库实例
      * @var 数据库
      */
-    private $_库;
+    private $库;
 
     /**
      * 保存拼装的语句
      * @var string
      */
-    private $_语句;
+    private $语句;
 
     public function __construct()
     {
-        $this->_库 = 数据库::获取实例();
-        $this->_表 = substr(strrchr(static::class, '\\'), 1);
+        $this->库 = 数据库::获取实例();
+        $this->表 = substr(strrchr(static::class, '\\'), 1);
     }
 
     /**
@@ -38,7 +38,7 @@ class 模型
     public function 选(array $字段列表 = []): self
     {
         $字段 = $字段列表 ? join(', ', $字段列表) : '*';
-        $this->_语句 = "select $字段 from `{$this->_表}`";
+        $this->语句 = "select $字段 from `{$this->表}`";
         return $this;
     }
 
@@ -49,7 +49,7 @@ class 模型
      */
     public function 当(string $条件): self
     {
-        $this->_语句 .= " where $条件";
+        $this->语句 .= " where $条件";
         return $this;
     }
 
@@ -59,7 +59,7 @@ class 模型
      */
     public function 取(): array
     {
-        return $this->_库->取($this->_语句);
+        return $this->库->取($this->语句);
     }
 
     /**
@@ -68,22 +68,22 @@ class 模型
      */
     public function 取尽(): array
     {
-        return $this->_库->取尽($this->_语句);
+        return $this->库->取尽($this->语句);
     }
 
     public function 插(array $字段列表 = []): self
     {
-        $this->_语句 = "insert into `{$this->_表}`";
+        $this->语句 = "insert into `{$this->表}`";
         if ($字段列表) {
             $字段 = join(', ', $字段列表);
-            $this->_语句 .= "($字段)";
+            $this->语句 .= "($字段)";
         }
         return $this;
     }
 
     public function 值(array $数据): bool
     {
-        $this->_语句 .= ' values (' . join(',', array_fill(0, count($数据), '?')) . ')';
-        return $this->_库->执行($this->_语句, $数据);
+        $this->语句 .= ' values (' . join(',', array_fill(0, count($数据), '?')) . ')';
+        return (bool)$this->库->执行($this->语句, $数据);
     }
 }

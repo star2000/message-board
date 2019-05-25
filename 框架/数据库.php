@@ -13,12 +13,12 @@ final class 数据库
     /**
      * @var PDO
      */
-    private $_连接;
+    private $连接;
 
     /**
      * @var self
      */
-    private static $_实例;
+    private static $实例;
 
     private function __construct(array $配置)
     {
@@ -33,14 +33,14 @@ final class 数据库
 
         // 连接数据库
         try {
-            $this->_连接 = new PDO($数据源, $配置['用户名'], $配置['密码']);
+            $this->连接 = new PDO($数据源, $配置['用户名'], $配置['密码']);
         } catch (PDOException $错误) {
             die('数据库链接失败');
         }
     }
 
     private function __clone()
-    {}
+    { }
 
     /**
      * 生成或返回现有实例
@@ -48,10 +48,10 @@ final class 数据库
      */
     public static function 获取实例(): self
     {
-        if (null == self::$_实例) {
-            self::$_实例 = new self($GLOBALS['配置']['数据库']);
+        if (null == self::$实例) {
+            self::$实例 = new self($GLOBALS['配置']['数据库']);
         }
-        return self::$_实例;
+        return self::$实例;
     }
 
     /**
@@ -62,7 +62,7 @@ final class 数据库
      */
     public function 执行(string $语句, array $数据 = []): PDOStatement
     {
-        $声明 = $this->_连接->prepare($语句);
+        $声明 = $this->连接->prepare($语句);
         $声明->execute($数据);
         return $声明;
     }
