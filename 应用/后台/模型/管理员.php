@@ -12,7 +12,7 @@ class 管理员 extends 模型
      * 判断管理员是否存在
      * @return bool
      */
-    public function 存在(string $名字)
+    public function 存在($名字)
     {
         return (bool)$this->查(['名字'])->当(['名字' => $名字])->取();
     }

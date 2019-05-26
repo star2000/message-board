@@ -22,7 +22,11 @@ final class 数据库
      */
     private static $实例;
 
-    private function __construct(array $配置)
+    /**
+     * 连接数据库
+     * @param array $配置
+     */
+    private function __construct($配置)
     {
         // 拼装dsn数据元
         $数据源 = $配置['类型'] . ':host=' . $配置['地址'] . ';dbname=' . $配置['库名'];
