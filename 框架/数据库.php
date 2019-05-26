@@ -11,11 +11,13 @@ use PDOStatement;
 final class 数据库
 {
     /**
+     * PDO连接
      * @var PDO
      */
     private $连接;
 
     /**
+     * 保存自身实例
      * @var self
      */
     private static $实例;
@@ -34,7 +36,7 @@ final class 数据库
         // 连接数据库
         try {
             $this->连接 = new PDO($数据源, $配置['用户名'], $配置['密码']);
-        } catch (PDOException $错误) {
+        } catch (PDOException $_) {
             die('数据库链接失败');
         }
     }
@@ -46,7 +48,7 @@ final class 数据库
      * 生成或返回现有实例
      * @return self
      */
-    public static function 获取实例(): self
+    public static function 获取实例()
     {
         if (null == self::$实例) {
             self::$实例 = new self($GLOBALS['配置']['数据库']);
@@ -55,35 +57,49 @@ final class 数据库
     }
 
     /**
-     * 预处理语句，并且执行
+     * 执行语句, 返回bool
+     * @param string $语句
+     * @param array $数据
+     * @return bool
+     */
+    public function 执行($语句, $数据 = [])
+    {
+        return $this->连接->prepare($语句)->execute($数据);
+    }
+
+    /**
+     * 查询语句, 返回PDOStatement对象
      * @param string $语句
      * @param array $数据
      * @return PDOStatement
      */
-    public function 执行(string $语句, array $数据 = []): PDOStatement
+    public function 查询($语句, $数据 = [])
     {
-        $声明 = $this->连接->prepare($语句);
-        $声明->execute($数据);
-        return $声明;
+        $模板 = $this->连接->prepare($语句);
+        $模板 or die('语句查询失败');
+        $模板->execute($数据);
+        return $模板;
     }
 
     /**
      * 取一行数据
-     * @var string $语句
+     * @param string $语句
+     * @param array $数据
      * @return array
      */
-    public function 取(string $语句, array $数据 = []): array
+    public function 取($语句, $数据 = [])
     {
-        return $this->执行($语句, $数据)->fetch(PDO::FETCH_ASSOC);
+        return $this->查询($语句, $数据)->fetch(PDO::FETCH_ASSOC);
     }
 
     /**
      * 取全部数据
-     * @var string $语句
+     * @param string $语句
+     * @param array $数据
      * @return array
      */
-    public function 取尽(string $语句): array
+    public function 取尽($语句, $数据 = [])
     {
-        return $this->执行($语句)->fetchAll(PDO::FETCH_ASSOC);
+        return $this->查询($语句, $数据)->fetchAll(PDO::FETCH_ASSOC);
     }
 }

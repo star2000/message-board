@@ -8,10 +8,11 @@ class 视图
 {
     /**
      * 渲染视图
-     * @var string $模板
-     * @var array $数据
+     * @param array $数据
+     * @param string $应用
+     * @param string $视图
      */
-    public function 渲染(array $数据 = [], string $应用 = '', string $视图 = '')
+    public function 渲染($数据 = [], $应用 = '', $视图 = '')
     {
         $应用 = $应用 ?: $GLOBALS['应用'];
         $视图 = $视图 ?: $GLOBALS['行为'];
@@ -24,7 +25,11 @@ class 视图
         require __DIR__ . "/../应用/$应用/视图/$视图.php";
     }
 
-    public function 跳转(string $目标 = '/')
+    /**
+     * 页面跳转
+     * @param string $目标
+     */
+    public function 跳转($目标 = '/')
     {
         header("location:$目标");
     }

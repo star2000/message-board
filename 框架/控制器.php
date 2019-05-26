@@ -7,6 +7,7 @@ namespace 框架;
 class 控制器
 {
     /**
+     * 视图类实例
      * @var 视图
      */
     public $视图;
