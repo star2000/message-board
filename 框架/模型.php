@@ -10,80 +10,158 @@ class 模型
      * 保存对应的表名
      * @var string
      */
-    private $表;
+    private $表 = '';
 
     /**
-     * 保存数据库实例
-     * @var 数据库
+     * 为拼装语句提供数据
+     * @var array
      */
-    private $库;
+    private $数据 = [];
 
     /**
-     * 保存拼装的语句
+     * 语句的类型
      * @var string
      */
-    private $语句;
+    private $类型 = '';
 
-    public function __construct()
+    /**
+     * 为拼装语句提供字段列表
+     * @var array
+     */
+    private $字段列表 = [];
+
+    public function __construct($表 = '')
     {
-        $this->库 = 数据库::获取实例();
-        $this->表 = substr(strrchr(static::class, '\\'), 1);
+        $this->表 = $表 ? $表 : substr(strrchr(static::class, '\\'), 1);
     }
 
     /**
-     * 拼装select语句
+     * 对应insert
+     * @param array $数据
+     * @return $this
+     */
+    public function 增($数据)
+    {
+        $this->类型 = '增';
+        $this->数据 = array_merge($this->数据, $数据);
+        return $this;
+    }
+
+    /**
+     * 对应delete
+     * @return $this
+     */
+    public function 删()
+    {
+        $this->类型 = '删';
+        return $this;
+    }
+
+    /**
+     * 对应update
      * @param array $字段列表
-     * @return self
+     * @return $this
      */
-    public function 选(array $字段列表 = []): self
+    public function 改($字段列表 = [])
     {
-        $字段 = $字段列表 ? join(', ', $字段列表) : '*';
-        $this->语句 = "select $字段 from `{$this->表}`";
+        $this->类型 = '改';
+        $this->字段列表 = $字段列表;
         return $this;
     }
 
     /**
-     * 拼装where子句
-     * @param string $条件
-     * @return self
+     * 对应select
+     * @param array $字段列表
+     * @return $this
      */
-    public function 当(string $条件): self
+    public function 查($字段列表 = [])
     {
-        $this->语句 .= " where $条件";
+        $this->类型 = '查';
+        $this->字段列表 = $字段列表;
         return $this;
+    }
+
+    /**
+     * 对应where
+     * @param array $条件
+     * @return $this
+     */
+    public function 当($条件)
+    {
+        $this->数据 = array_merge($this->数据, $条件);
+        return $this;
+    }
+
+    /**
+     * 拼装语句
+     * @return string
+     */
+    public function 语句()
+    {
+        switch ($this->类型) {
+            case '增':
+                $语句 = "insert into `{$this->表}`";
+                $语句 .= '(' . join(', ', array_keys($this->数据)) . ')';
+                $语句 .= ' values (:' . join(', :', array_keys($this->数据)) . ')';
+                break;
+            case '删':
+                $语句 = "delete from `{$this->表}`";
+                break;
+            case '改':
+                $语句 = "update `{$this->表}` set ";
+                $语句 .= join(', ', array_map(function ($键) {
+                    return "'$键'=:_$键";
+                }, array_keys($this->字段列表)));
+                break;
+            case '查':
+                $字段 = $this->字段列表 ? join(', ', $this->字段列表) : '*';
+                $语句 = "select $字段 from `{$this->表}`";
+                break;
+            default:
+                return '';
+        }
+        // where 子句
+        if (in_array($this->类型, ['删', '改', '查'])) {
+            if ($this->数据) {
+                $语句 .= ' where ';
+                $语句 .= join(' and ', array_map(function ($键) {
+                    return "'$键'=:$键";
+                }, array_keys($this->数据)));
+            }
+        }
+        if ($this->类型 == '改') {
+            foreach ($this->字段列表 as $键 => $值) {
+                $this->数据["_$键"] = $值;
+            }
+        }
+        return $语句;
+    }
+
+    /**
+     * 执行语句
+     * @param array $数据
+     * @return bool
+     */
+    public function 执行($数据 = [])
+    {
+        return 数据库::获取实例()->执行($this->语句(), $数据);
     }
 
     /**
      * 取一行数据
      * @return array
      */
-    public function 取(): array
+    public function 取()
     {
-        return $this->库->取($this->语句);
+        return 数据库::获取实例()->取($this->语句(), $this->数据);
     }
 
     /**
      * 取全部数据
      * @return array
      */
-    public function 取尽(): array
+    public function 取尽()
     {
-        return $this->库->取尽($this->语句);
-    }
-
-    public function 插(array $字段列表 = []): self
-    {
-        $this->语句 = "insert into `{$this->表}`";
-        if ($字段列表) {
-            $字段 = join(', ', $字段列表);
-            $this->语句 .= "($字段)";
-        }
-        return $this;
-    }
-
-    public function 值(array $数据): bool
-    {
-        $this->语句 .= ' values (' . join(',', array_fill(0, count($数据), '?')) . ')';
-        return (bool)$this->库->执行($this->语句, $数据);
+        return 数据库::获取实例()->取尽($this->语句(), $this->数据);
     }
 }
