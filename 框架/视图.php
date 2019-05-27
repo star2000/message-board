@@ -27,10 +27,10 @@ class 视图
 
     /**
      * 页面跳转
-     * @param string $目标
+     * @param array $目标
      */
-    public function 跳转($目标 = '/')
+    public function 跳转($目标 = [])
     {
-        header("location:$目标");
+        header("location:/?" . http_build_query($目标));
     }
 }
