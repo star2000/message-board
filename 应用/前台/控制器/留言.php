@@ -8,9 +8,8 @@ class 留言 extends 控制器
 {
     public $留言模型;
 
-    public function __construct()
+    public function 初始化()
     {
-        parent::__construct();
         $this->留言模型 = new 留言模型;
     }
 
