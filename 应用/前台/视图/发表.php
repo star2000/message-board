@@ -1,10 +1,15 @@
-<!DOCTYPE html>
-<html lang="zh">
+<!doctype html>
+<html lang="zh-cn">
+
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>编辑器</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/png">
     <link href="bootstrap.css" rel="stylesheet">
 </head>
+
 <body class="container">
     <h1>编辑器</h1>
     <form method="post">
@@ -14,4 +19,3 @@
         <button type="submit" class="btn btn-block btn-outline-primary">提交</button>
     </form>
 </body>
-</html>
