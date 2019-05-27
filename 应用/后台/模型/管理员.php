@@ -21,10 +21,15 @@ class 管理员 extends 模型
      * 判断密码是否正确
      * @param string $名字
      * @param string $密码
-     * @return bool
+     * @return int|bool
      */
     public function 校验($名字, $密码)
     {
-        return sha1($密码) == $this->查('密码')->当(['名字' => $名字])->取()['密码'];
+        $数据 = $this->查('编号', '密码')->当(['名字' => $名字])->取();
+        if (sha1($密码) == $数据['密码']) {
+            return $数据['编号'];
+        } else {
+            return false;
+        }
     }
 }
