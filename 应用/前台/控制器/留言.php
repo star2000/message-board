@@ -17,7 +17,7 @@ class 留言 extends 控制器
     {
         $this->视图->渲染([
             '留言列表' => $this->留言模型->列表(),
-        ]);
+        ], '公共');
     }
 
     public function 发表()
