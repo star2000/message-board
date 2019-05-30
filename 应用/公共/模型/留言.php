@@ -10,15 +10,13 @@ class 留言 extends 模型
 {
     /**
      * 发表留言
-     * @param string $标题
      * @param string $内容
      * @param string $邮箱
      * @return bool
      */
-    public function 发表($标题, $内容, $邮箱)
+    public function 发表($内容, $邮箱)
     {
         return $this->增([
-            '标题' => $标题,
             '内容' => $内容,
             '邮箱' => $邮箱,
             'ip' => $_SERVER['REMOTE_ADDR']
@@ -26,7 +24,7 @@ class 留言 extends 模型
     }
 
     /**
-     * 取出所以的留言
+     * 取出所有的留言
      * @return array
      */
     public function 列表()
@@ -35,11 +33,21 @@ class 留言 extends 模型
     }
 
     /**
+     * 删除留言
      * @param int $编号
      * @return bool
      */
     public function 删除($编号)
     {
         return $this->删()->当(['编号' => $编号])->执行();
+    }
+
+    /**
+     * 获得总行数
+     * @return int
+     */
+    public function 总数()
+    {
+        return $this->查(['count(*)'])->取()['count(*)'];
     }
 }
