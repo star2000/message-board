@@ -11,7 +11,7 @@
 </head>
 
 <body class="container">
-    <?php if ($提示) { ?>
+    <?php if (isset($提示)) { ?>
         <p class="alert alert-danger"><?= $提示 ?: '' ?></p>
     <?php } ?>
     <form method="post">
