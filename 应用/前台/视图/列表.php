@@ -28,16 +28,29 @@
         </div>
     </form>
     <?php foreach ($留言列表 as $留言) { ?>
-        <section class="card mt-3">
+        <section class="card my-3">
             <div class="card-title pl-2">
                 <a href="mailto:<?= $留言['邮箱'] ?>" class="card-link"><?= $留言['邮箱'] ?></a>
-                发表于 <?= $留言['时间'] ?>
+                <span class="text-muted">发表于 <?= $留言['时间'] ?></span>
             </div>
             <div class="card-body">
                 <?= $留言['内容'] ?>
             </div>
         </section>
     <?php } ?>
+    <div class="btn-toolbar btn-group">
+        <?php if ($当前页 > 1) { ?>
+            <a href="<?= self::链接(['分页' => $当前页 - 1]) ?>" class="btn btn-outline-dark">上一页</a>
+        <?php } ?>
+        <?php for ($_ = 1; $_ <= $总页数; $_++) { ?>
+            <a href="<?= self::链接(['分页' => $_]) ?>" class="btn btn-outline-dark <?= $当前页 == $_ ? 'disabled' : '' ?>">
+                <?= $_ ?>
+            </a>
+        <?php } ?>
+        <?php if ($当前页 < $总页数) { ?>
+            <a href="<?= self::链接(['分页' => $当前页 + 1]) ?>" class="btn btn-outline-dark">下一页</a>
+        <?php } ?>
+    </div>
 </body>
 
 </html>

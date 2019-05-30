@@ -24,12 +24,13 @@ class 留言 extends 模型
     }
 
     /**
-     * 取出所有的留言
+     * 按页取出的留言
+     * @param int $页
      * @return array
      */
-    public function 列表()
+    public function 列表($页 = 1)
     {
-        return $this->查()->取尽();
+        return $this->查()->始($GLOBALS['分页'] * ($页 - 1))->取尽();
     }
 
     /**
