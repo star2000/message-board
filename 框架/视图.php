@@ -27,20 +27,20 @@ class 视图
 
     /**
      * 页面跳转
-     * @param array $目标
+     * @param array $参数
      */
-    public static function 跳转($目标 = [])
+    public static function 跳转($参数 = [])
     {
-        header('location:' . self::链接($目标));
+        header('location:' . self::链接($参数));
     }
 
     /**
      * 生成链接
-     * @param array $目标
+     * @param array $参数
      * @return string
      */
-    public static function 链接($目标 = [])
+    public static function 链接($参数 = [])
     {
-        return $目标 ? '/?' . http_build_query($目标) : '/';
+        return $参数 ? '/?' . http_build_query($参数) : '/';
     }
 }
