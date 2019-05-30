@@ -100,9 +100,8 @@ class 模型
     {
         switch ($this->类型) {
             case '增':
-                $语句 = "insert into `{$this->表}`";
-                $语句 .= '(' . join(', ', array_keys($this->数据)) . ')';
-                $语句 .= ' values (:' . join(', :', array_keys($this->数据)) . ')';
+                $语句 = "insert into `{$this->表}`(" . join(', ', array_keys($this->数据)) . ')';
+                $语句 .= ' values (' . join(', ', array_fill(0, count($this->数据), '?')) . ')';
                 break;
             case '删':
                 $语句 = "delete from `{$this->表}`";
@@ -110,7 +109,7 @@ class 模型
             case '改':
                 $语句 = "update `{$this->表}` set ";
                 $语句 .= join(', ', array_map(function ($键) {
-                    return "'$键'=:_$键";
+                    return "`$键`=?";
                 }, array_keys($this->字段列表)));
                 break;
             case '查':
@@ -121,17 +120,17 @@ class 模型
                 return '';
         }
         // where 子句
-        if (in_array($this->类型, ['删', '改', '查'])) {
+        if ($this->类型 != '增') {
             if ($this->数据) {
                 $语句 .= ' where ';
                 $语句 .= join(' and ', array_map(function ($键) {
-                    return "'$键'=:$键";
+                    return "`$键`=?";
                 }, array_keys($this->数据)));
             }
         }
         if ($this->类型 == '改') {
-            foreach ($this->字段列表 as $键 => $值) {
-                $this->数据["_$键"] = $值;
+            foreach ($this->字段列表 as $值) {
+                $this->数据[] = $值;
             }
         }
         return $语句;
@@ -144,7 +143,8 @@ class 模型
      */
     public function 执行($数据 = [])
     {
-        return 数据库::获取实例()->执行($this->语句(), $数据);
+        $this->数据 = array_merge($this->数据, $数据);
+        return 数据库::获取实例()->执行($this->语句(), array_values($this->数据));
     }
 
     /**
@@ -153,7 +153,7 @@ class 模型
      */
     public function 取()
     {
-        return 数据库::获取实例()->取($this->语句(), $this->数据);
+        return 数据库::获取实例()->取($this->语句(), array_values($this->数据));
     }
 
     /**
@@ -162,6 +162,6 @@ class 模型
      */
     public function 取尽()
     {
-        return 数据库::获取实例()->取尽($this->语句(), $this->数据);
+        return 数据库::获取实例()->取尽($this->语句(), array_values($this->数据));
     }
 }
