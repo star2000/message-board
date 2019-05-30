@@ -6,25 +6,25 @@ namespace 框架;
  */
 final class 框架
 {
-    public function 运行()
+    public static function 运行()
     {
-        $this->加载配置();
-        $this->注册自动加载();
-        $this->请求分发();
+        self::加载配置();
+        self::注册自动加载();
+        self::请求分发();
     }
-    private function 加载配置()
+    private static function 加载配置()
     {
         $GLOBALS['配置'] = require __DIR__ . '/../配置.php';
     }
-    private function 注册自动加载()
+    private static function 注册自动加载()
     {
-        spl_autoload_register([$this, '自动加载']);
+        spl_autoload_register('self::自动加载');
     }
-    private function 自动加载($类名)
+    private static function 自动加载($类名)
     {
         require __DIR__ . '/../' . $类名 . '.php';
     }
-    private function 请求分发()
+    private static function 请求分发()
     {
         // 路由
         $应用 = $_REQUEST['应用'] ?? $GLOBALS['配置']['应用']['默认应用'];

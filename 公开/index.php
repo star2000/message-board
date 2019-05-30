@@ -3,4 +3,4 @@ namespace 框架;
 
 require __DIR__ . '/../框架/框架.php';
 
-(new 框架)->运行();
+框架::运行();
