@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>留言板</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/png">
+    <link href="bootstrap.css" rel="stylesheet">
+</head>
+
+<body class="container col-lg-8">
+    <h1 class="text-center text-primary my-5">
+        <a href="https://github.com/star2000/message-board" class="text-decoration-none">
+            <img src="favicon.ico" alt="标志" height="60">
+        </a>
+        星的留言板
+    </h1>
+    <h2 class="text-center text-primary mb-5">一个基于PHP的留言板</h2>
+    <span class="text-primary">共 <?= $留言总数 ?> 条评论</span>
+    <hr>
+    <form action="<?= self::链接(['行为' => '发表']) ?>" method="post">
+        <textarea name="内容" placeholder="说点什么" rows="3" class="form-control mb-1"></textarea>
+        <div class="form-row mx-0">
+            <input type="email" name="邮箱" placeholder=" 邮箱" class="form-control col mr-1">
+            <button type="submit" class="btn btn-outline-primary col-2">发表</button>
+        </div>
+    </form>
+    <?php foreach ($留言列表 as $留言) { ?>
+        <section class="card mt-3">
+            <div class="card-title pl-2">
+                <a href="mailto:<?= $留言['邮箱'] ?>" class="card-link"><?= $留言['邮箱'] ?></a>
+                发表于 <?= $留言['时间'] ?>
+            </div>
+            <div class="card-body">
+                <?= $留言['内容'] ?>
+            </div>
+        </section>
+    <?php } ?>
+</body>
+
+</html>

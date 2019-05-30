@@ -20,6 +20,9 @@ class 留言 extends 控制器
         $this->留言 = new 留言模型;
     }
 
+    public function 列表()
+    { }
+
     public function 回复()
     { }
 
