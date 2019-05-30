@@ -15,7 +15,7 @@ class 留言 extends 模型
      * @param string $邮箱
      * @return bool
      */
-    public function 发表($标题,  $内容,  $邮箱)
+    public function 发表($标题, $内容, $邮箱)
     {
         return $this->增([
             '标题' => $标题,
@@ -26,7 +26,7 @@ class 留言 extends 模型
     }
 
     /**
-     * 
+     * 取出所以的留言
      * @return array
      */
     public function 列表()
