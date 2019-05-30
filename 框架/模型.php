@@ -25,6 +25,18 @@ class 模型
     private $类型 = '';
 
     /**
+     * 控制limit的起始行
+     * @var int
+     */
+    private $始行 = 0;
+
+    /**
+     * 限制查询的行数
+     * @var int
+     */
+    private $行;
+
+    /**
      * 为拼装语句提供字段列表
      * @var array
      */
@@ -33,6 +45,7 @@ class 模型
     public function __construct($表 = '')
     {
         $this->表 = $表 ? $表 : substr(strrchr(static::class, '\\'), 1);
+        $this->行 = $GLOBALS['配置'][$GLOBALS['应用']]['分页'];
     }
 
     /**
@@ -93,6 +106,17 @@ class 模型
     }
 
     /**
+     * 对应limit
+     * @param int $行
+     * @return $this
+     */
+    public function 始($始行)
+    {
+        $this->始行 = $始行;
+        return $this;
+    }
+
+    /**
      * 拼装语句
      * @return string
      */
@@ -128,6 +152,9 @@ class 模型
                 }, array_keys($this->数据)));
             }
         }
+        // limit 子句
+        $语句 .= " limit {$this->始行},{$this->行}";
+
         if ($this->类型 == '改') {
             foreach ($this->字段列表 as $值) {
                 $this->数据[] = $值;
