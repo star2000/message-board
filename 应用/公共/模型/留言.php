@@ -19,7 +19,7 @@ class 留言 extends 模型
         return $this->增([
             '内容' => $内容,
             '邮箱' => $邮箱,
-            'ip' => $_SERVER['REMOTE_ADDR']
+            '地址' => $_SERVER['REMOTE_ADDR']
         ])->执行();
     }
 
