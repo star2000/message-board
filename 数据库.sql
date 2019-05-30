@@ -6,14 +6,12 @@ use msg;
 create table 留言 (
   编号 int unsigned auto_increment primary key,
   时间 timestamp not null,
-  标题 varchar(20) not null,
   内容 text not null,
-  回复 text not null,
   邮箱 varchar(60) not null,
   ip varchar(15) not null
 );
 
-insert into 留言(标题, 内容, 邮箱, ip) values ('测试','测试留言板','i@star2000.work','127.0.0.1');
+insert into 留言(内容, 邮箱, ip) values ('测试留言板','i@star2000.work','127.0.0.1');
 
 create table 管理员 (
   编号 int unsigned auto_increment primary key,
