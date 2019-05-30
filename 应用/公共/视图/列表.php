@@ -32,7 +32,7 @@
             </tr>
         <?php } ?>
     </table>
-    <a href="<?= self::链接(['行为' => '发表']) ?>" class="btn btn-link btn-outline-success">添加</a>
+    <a href="<?= self::链接(['行为' => '发表']) ?>" class="btn btn-link btn-outline-success">留言</a>
 </body>
 
 </html>
