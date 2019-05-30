@@ -8,6 +8,7 @@ final class 框架
 {
     public static function 运行()
     {
+        session_start();
         self::加载配置();
         self::注册自动加载();
         self::请求分发();
