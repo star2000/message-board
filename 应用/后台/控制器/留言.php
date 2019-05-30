@@ -6,10 +6,6 @@ use 框架\控制器;
 
 class 留言 extends 控制器
 {
-    public function 列表()
-    {
-        
-    }
     public function 回复()
     {
         
