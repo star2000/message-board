@@ -12,7 +12,7 @@ class 视图
      * @param string $应用
      * @param string $视图
      */
-    public function 渲染($数据 = [], $应用 = '', $视图 = '')
+    public static function 渲染($数据 = [], $应用 = '', $视图 = '')
     {
         $应用 = $应用 ?: $GLOBALS['应用'];
         $视图 = $视图 ?: $GLOBALS['行为'];
@@ -29,8 +29,18 @@ class 视图
      * 页面跳转
      * @param array $目标
      */
-    public function 跳转($目标 = [])
+    public static function 跳转($目标 = [])
     {
-        header("location:/?" . http_build_query($目标));
+        header('location:' . self::链接($目标));
+    }
+
+    /**
+     * 生成链接
+     * @param array $目标
+     * @return string
+     */
+    public static function 链接($目标 = [])
+    {
+        return $目标 ? '/?' . http_build_query($目标) : '/';
     }
 }
