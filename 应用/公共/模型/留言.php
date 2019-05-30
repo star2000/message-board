@@ -33,4 +33,13 @@ class 留言 extends 模型
     {
         return $this->查()->取尽();
     }
+
+    /**
+     * @param int $编号
+     * @return bool
+     */
+    public function 删除($编号)
+    {
+        return $this->删()->当(['编号' => $编号])->执行();
+    }
 }
