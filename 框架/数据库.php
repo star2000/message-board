@@ -39,7 +39,10 @@ final class 数据库
 
         // 连接数据库
         try {
-            $this->连接 = new PDO($数据源, $配置['用户名'], $配置['密码']);
+            $this->连接 = new PDO($数据源, $配置['用户名'], $配置['密码'], [
+                PDO::ATTR_EMULATE_PREPARES => false,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+            ]);
         } catch (PDOException $_) {
             die('数据库链接失败');
         }
@@ -93,7 +96,7 @@ final class 数据库
      */
     public function 取($语句, $数据 = [])
     {
-        return $this->查询($语句, $数据)->fetch(PDO::FETCH_ASSOC);
+        return $this->查询($语句, $数据)->fetch();
     }
 
     /**
@@ -104,6 +107,6 @@ final class 数据库
      */
     public function 取尽($语句, $数据 = [])
     {
-        return $this->查询($语句, $数据)->fetchAll(PDO::FETCH_ASSOC);
+        return $this->查询($语句, $数据)->fetchAll();
     }
 }
