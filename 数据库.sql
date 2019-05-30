@@ -1,7 +1,7 @@
 set names utf8;
-drop database if exists msg;
-create database msg charset utf8;
-use msg;
+drop database if exists 留言板;
+create database 留言板 charset utf8;
+use 留言板;
 
 create table 留言 (
   编号 int unsigned auto_increment primary key,
