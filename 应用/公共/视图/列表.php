@@ -33,6 +33,12 @@
         <?php } ?>
     </table>
     <a href="<?= self::链接(['行为' => '发表']) ?>" class="btn btn-link btn-outline-success">留言</a>
+    <?php if (isset($_SESSION['管理员'])) { ?>
+        欢迎管理员 <?= $_SESSION['管理员'] ?>
+        <a href="<?= self::链接(['应用' => '后台', '行为' => '注销']) ?>" class="btn btn-link btn-outline-primary">注销</a>
+    <?php } else { ?>
+        <a href="<?= self::链接(['应用' => '后台']) ?>" class="btn btn-link btn-outline-primary">管理员登录</a>
+    <?php } ?>
 </body>
 
 </html>
