@@ -147,7 +147,9 @@ class 模型
             }
         }
         // limit 子句
-        $语句 .= " limit {$this->始行},{$GLOBALS['分页']}";
+        if ($this->类型 == '查') {
+            $语句 .= " limit {$this->始行},{$GLOBALS['分页']}";
+        }
 
         if ($this->类型 == '改') {
             foreach ($this->字段列表 as $值) {
