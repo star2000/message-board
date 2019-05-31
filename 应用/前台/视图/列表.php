@@ -43,7 +43,11 @@
             <a href="<?= self::链接(['分页' => 1]) ?>" class="btn btn-outline-dark">首页</a>
         <?php } ?>
         <?php for ($_ = 1; $_ <= $总页数; $_++) {
-            if ($_ < $当前页 - 3 or $_ > $当前页 + 3) {
+            if ($当前页 <= 3 or $当前页 >= $总页数 - 3) {
+                if ($_ < $当前页 - 6 or $_ > $当前页 + 6) {
+                    continue;
+                }
+            } elseif ($_ < $当前页 - 3 or $_ > $当前页 + 3) {
                 continue;
             } ?>
             <a href="<?= self::链接(['分页' => $_]) ?>" class="btn btn-outline-dark <?= $当前页 == $_ ? 'disabled' : '' ?>">
