@@ -152,7 +152,7 @@ class 模型
 
         if ($this->类型 == '改') {
             foreach ($this->字段列表 as $值) {
-                $this->数据[] = $值;
+                array_unshift($this->数据, $值);
             }
         }
         return $语句;
