@@ -39,7 +39,6 @@ class 模型
     public function __construct($表 = '')
     {
         $this->表 = $表 ? $表 : substr(strrchr(static::class, '\\'), 1);
-        $GLOBALS['分页'] = $GLOBALS['配置'][$GLOBALS['应用']]['分页'];
     }
 
     /**
@@ -148,7 +147,7 @@ class 模型
         }
         // limit 子句
         if ($this->类型 == '查') {
-            $语句 .= " limit {$this->始行},{$GLOBALS['分页']}";
+            $语句 .= " limit {$this->始行}," . 分页;
         }
 
         if ($this->类型 == '改') {

@@ -30,7 +30,7 @@ class 留言 extends 模型
      */
     public function 列表($页 = 1)
     {
-        return $this->查()->始($GLOBALS['分页'] * ($页 - 1))->取尽();
+        return $this->查()->始(分页 * ($页 - 1))->取尽();
     }
 
     /**
