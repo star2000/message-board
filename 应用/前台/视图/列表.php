@@ -40,15 +40,18 @@
     <?php } ?>
     <div class="btn-toolbar btn-group">
         <?php if ($当前页 > 1) { ?>
-            <a href="<?= self::链接(['分页' => $当前页 - 1]) ?>" class="btn btn-outline-dark">上一页</a>
+            <a href="<?= self::链接(['分页' => 1]) ?>" class="btn btn-outline-dark">首页</a>
         <?php } ?>
-        <?php for ($_ = 1; $_ <= $总页数; $_++) { ?>
+        <?php for ($_ = 1; $_ <= $总页数; $_++) {
+            if ($_ < $当前页 - 3 or $_ > $当前页 + 3) {
+                continue;
+            } ?>
             <a href="<?= self::链接(['分页' => $_]) ?>" class="btn btn-outline-dark <?= $当前页 == $_ ? 'disabled' : '' ?>">
                 <?= $_ ?>
             </a>
         <?php } ?>
         <?php if ($当前页 < $总页数) { ?>
-            <a href="<?= self::链接(['分页' => $当前页 + 1]) ?>" class="btn btn-outline-dark">下一页</a>
+            <a href="<?= self::链接(['分页' => $总页数]) ?>" class="btn btn-outline-dark">尾页</a>
         <?php } ?>
     </div>
 </body>
