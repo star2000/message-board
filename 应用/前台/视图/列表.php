@@ -11,6 +11,9 @@
 </head>
 
 <body class="container col-lg-8">
+    <a href="<?= self::链接(['应用' => '后台', '控制器' => '管理员', '行为' => '登录']) ?>" class="fixed-top">
+        管理员登录
+    </a>
     <h1 class="text-center text-primary my-5">
         <a href="https://github.com/star2000/message-board" class="text-decoration-none">
             <img src="favicon.ico" alt="标志" height="60">
