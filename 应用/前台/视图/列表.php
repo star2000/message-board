@@ -29,19 +29,22 @@
     </form>
     <?php foreach ($留言列表 as $留言) { ?>
         <section class="card my-3">
-            <div class="card-title pl-2">
-                <a href="mailto:<?= $留言['邮箱'] ?>" class="card-link"><?= $留言['邮箱'] ?></a>
-                <span class="text-muted">发表于 <?= $留言['时间'] ?></span>
-            </div>
             <div class="card-body">
-                <?= $留言['内容'] ?>
+                <h6 class="card-title">
+                    <a href="mailto:<?= $留言['邮箱'] ?>" class="card-link"><?= $留言['邮箱'] ?></a>
+                    <span class="text-muted">发表于 <?= $留言['时间'] ?></span>
+                </h6>
+                <p class="card-text"><?= $留言['内容'] ?></p>
             </div>
+            <?php if ($留言['回复']) { ?>
+                <div class="card-footer">管理员回复: <?= $留言['回复'] ?></div>
+            <?php } ?>
         </section>
     <?php } ?>
     <div class="btn-toolbar btn-group">
-        <?php if ($当前页 > 1) { ?>
-            <a href="<?= self::链接(['分页' => 1]) ?>" class="btn btn-outline-dark">首页</a>
-        <?php } ?>
+        <a href="<?= self::链接(['分页' => 1]) ?>" class="col-1 btn btn-outline-dark <?= $当前页 == 1 ? 'disabled' : '' ?>">
+            首页
+        </a>
         <?php for ($_ = 1; $_ <= $总页数; $_++) {
             if ($当前页 <= 3 or $当前页 >= $总页数 - 3) {
                 if ($_ < $当前页 - 6 or $_ > $当前页 + 6) {
@@ -50,13 +53,13 @@
             } elseif ($_ < $当前页 - 3 or $_ > $当前页 + 3) {
                 continue;
             } ?>
-            <a href="<?= self::链接(['分页' => $_]) ?>" class="btn btn-outline-dark <?= $当前页 == $_ ? 'disabled' : '' ?>">
+            <a href="<?= self::链接(['分页' => $_]) ?>" class="col-1 btn btn-outline-dark <?= $当前页 == $_ ? 'disabled' : '' ?>">
                 <?= $_ ?>
             </a>
         <?php } ?>
-        <?php if ($当前页 < $总页数) { ?>
-            <a href="<?= self::链接(['分页' => $总页数]) ?>" class="btn btn-outline-dark">尾页</a>
-        <?php } ?>
+        <a href="<?= self::链接(['分页' => $总页数]) ?>" class="col-1 btn btn-outline-dark <?= $当前页 == $总页数 ? 'disabled' : '' ?>">
+            尾页
+        </a>
     </div>
 </body>
 
