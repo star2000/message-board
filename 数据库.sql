@@ -7,6 +7,7 @@ create table 留言 (
   编号 int unsigned auto_increment primary key,
   时间 timestamp not null,
   内容 text not null,
+  回复 text not null,
   邮箱 varchar(60) not null,
   地址 varchar(15) not null
 );
