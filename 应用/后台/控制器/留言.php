@@ -33,17 +33,26 @@ class 留言 extends 控制器
         ]);
     }
 
-    public function 回复()
-    { }
-
-    public function 编辑()
-    { }
+    public function 修改()
+    {
+        if (!isset($_GET['编号'])) {
+            return 视图::跳转(['行为' => '列表']);
+        }
+        $数据 = array_filter($_POST, function ($键) {
+            return in_array($键, ['内容', '邮箱', '地址', '回复']);
+        }, ARRAY_FILTER_USE_KEY);
+        if (!$数据) {
+            return 视图::渲染([
+                '留言' => $this->留言->查()->当(['编号' => $_GET['编号']])->取()
+            ]);
+        }
+        $this->留言->改($数据)->当(['编号' => $_GET['编号']])->执行();
+        视图::跳转(['行为' => '列表']);
+    }
 
     public function 删除()
     {
         $this->留言->删除($_GET['编号']);
-        视图::跳转([
-            '行为' => '列表'
-        ]);
+        视图::跳转(['行为' => '列表']);
     }
 }
