@@ -151,9 +151,7 @@ class 模型
         }
 
         if ($this->类型 == '改') {
-            foreach ($this->字段列表 as $值) {
-                array_unshift($this->数据, $值);
-            }
+            $this->数据 = array_values($this->字段列表) + $this->数据;
         }
         return $语句;
     }
